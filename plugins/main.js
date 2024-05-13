@@ -1,5 +1,5 @@
 import Vue from 'vue'
-import App from '/pages/index.vue'
+import App from './App.vue'
 import VeeValidate from 'vee-validate'
 
 Vue.use(VeeValidate)
