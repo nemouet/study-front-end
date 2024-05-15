@@ -33,6 +33,9 @@ body, html {
   margin: 0;
   height: 100%;
 }
+#app {
+  width: 80%
+}
 #__nuxt {
   width: 50%
 }
