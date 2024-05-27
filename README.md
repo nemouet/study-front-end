@@ -1,69 +1,72 @@
-# huynt-fe-dev
+## I. Câu hỏi chung.
+1. Document Object Model (DOM) là gì?
+- DOM là một giao diện lập trình thể hiện cho web document có cấu trúc như HTML và XML dưới dạng cây đối tượng (tree of objects). Nó định nghĩa cách truy cập, thao tác và sửa đổi các thành phần của documents bằng script language như Javascript.
 
-## Build Setup
+2. Cách thức Vue có thể manipulate DOM?
+- Vue có thể manipulate DOM thông qua directive và reactive data binding.
+  1. Virtual DOM: DOM ảo là một bản sao cấu trúc của DOM thực tế. Các thay đổi không được thực hiện đối với DOM thực, thay vào đó, một bản sao của DOM được tạo dưới dạng cấu trúc dữ liệu JavaScript . Khi nào có bất kỳ thay đổi nào, chúng sẽ được thực hiện đối với cấu trúc dữ liệu JavaScript. Cấu trúc sau được so sánh với cấu trúc dữ liệu ban đầu. Những thay đổi cuối cùng sau đó được cập nhật vào DOM thực, người dùng sẽ thấy thay đổi này.
+  2. Directives: Vue cung cấp một số directive để manipulate DOM. Một số directive phổ biến bao gồm:
+   - v-bind: Bind data từ Vue instance tới các thuộc tính của DOM element, ví dụ: v-bind:class, v-bind:style, v-bind:href...
+   - v-on: Gắn sự kiện tới DOM element, ví dụ: v-on:click, v-on:keyup...
+   - v-if và v-show: Dùng để điều khiển việc hiển thị và ẩn các phần tử trong DOM.
+   - v-for: Dùng để lặp qua một mảng và render các phần tử trong DOM.
 
-```bash
-# install dependencies
-$ npm install
+  3. Reactive data binding: Vue sử dụng reactive data binding để theo dõi sự thay đổi của các biến trong Vue instance và tự động cập nhật DOM tương ứng. Khi giá trị của biến thay đổi, Vue sẽ tự động update các phần tử liên quan trong DOM mà không cần phải manipulate DOM trực tiếp.
 
-# serve with hot reload at localhost:3000
-$ npm run dev
+  4. Custom directives: Ngoài các directive tích hợp sẵn, Vue cũng cho phép tạo ra các directive tùy chỉnh để manipulate DOM theo cách riêng. Bằng cách sử dụng custom directives, người dùng có thể thực hiện các thao tác manipulate DOM phức tạp hơn mà không cần phải viết mã JavaScript trực tiếp trong template.
 
-# build for production and launch server
-$ npm run build
-$ npm run start
+## II. Tóm tắt về project structure và cách thức routing của Nuxt2 
+1. Tóm tắt về project structure
+- Project gồm các thư mục sau:
+    - Components directory: Chứa các components. project này chứa file `Skills.vue`
+    - Pages directory: chứa các view của ứng dụng, mỗi một file tương đương 1 routes của ứng dụng. Project này chứa 2 file `About.vue` và `index.vue` tương ứng với trang index và trang about.
+    - Plugins directory: chứa các plugin js
+    - Static directory: chứa các file static được ánh xạ trực tiếp đến server
+    - Nuxt.config.js file: file cấu hình cho dự án Nuxtjs (vd như head có gì, title có gì ... các Plugins nào được chạy trước khi render ra trang...)
+    - Package.json File:  chứa các dependencies và scripts cho ứng dụng của bạn.
 
-# generate static project
-$ npm run generate
-```
+2. Cách thức routing của Nuxt2
+- Routing trong Nuxt2 được quản lý tự động thông qua cấu trúc thư mục và các tệp Vue trong thưc mục `pages`. Ví dụ:
+  - `pages/index.vue`: sẽ tương ứng với đường dẫn `/`.
+  - `pages/about.vue`: sẽ tương ứng với đường dẫn `/about`.
 
-For detailed explanation on how things work, check out the [documentation](https://nuxtjs.org).
+- Nuxt.js cũng hỗ trợ việc tạo các route lồng nhau bằng cách sử dụng route con của vue-router.
 
-## Special Directories
+- Ví dụ:
+  - Đường dẫn file:
+    ```
+    pages/
+    --| users/
+    -----| _id.vue
+    -----| index.vue
+    --| users.vue
+    ```
+  - Nó sẽ tự động tạo ra Router:
+    ```
+    router: {
+      routes: [
+        {
+          path: '/users',
+          component: 'pages/users.vue',
+          children: [
+            {
+              path: '',
+              component: 'pages/users/index.vue',
+              name: 'users'
+            },
+            {
+              path: ':id',
+              component: 'pages/users/_id.vue',
+              name: 'users-id'
+            }
+          ]
+        }
+      ]
+    }
+    ```
 
-You can create the following extra directories, some of which have special behaviors. Only `pages` is required; you can delete them if you don't want to use their functionality.
+## 3. Câu lệnh để chạy ở môi trường dev và build.
+- Câu lệnh ở môi trường dev: `$npm run dev`
+- Để build, ta dùng lệnh: `npm run build`
+- Sau khi app được build thành công, sử dụng lệnh này để chạy: `npm run start`
 
-### `assets`
-
-The assets directory contains your uncompiled assets such as Stylus or Sass files, images, or fonts.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/assets).
-
-### `components`
-
-The components directory contains your Vue.js components. Components make up the different parts of your page and can be reused and imported into your pages, layouts and even other components.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/components).
-
-### `layouts`
-
-Layouts are a great help when you want to change the look and feel of your Nuxt app, whether you want to include a sidebar or have distinct layouts for mobile and desktop.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/layouts).
-
-
-### `pages`
-
-This directory contains your application views and routes. Nuxt will read all the `*.vue` files inside this directory and setup Vue Router automatically.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/get-started/routing).
-
-### `plugins`
-
-The plugins directory contains JavaScript plugins that you want to run before instantiating the root Vue.js Application. This is the place to add Vue plugins and to inject functions or constants. Every time you need to use `Vue.use()`, you should create a file in `plugins/` and add its path to plugins in `nuxt.config.js`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/plugins).
-
-### `static`
-
-This directory contains your static files. Each file inside this directory is mapped to `/`.
-
-Example: `/static/robots.txt` is mapped as `/robots.txt`.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/static).
-
-### `store`
-
-This directory contains your Vuex store files. Creating a file in this directory automatically activates Vuex.
-
-More information about the usage of this directory in [the documentation](https://nuxtjs.org/docs/2.x/directory-structure/store).
